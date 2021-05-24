@@ -1,0 +1,81 @@
+:root {
+    font-family: sans-serif;
+    --light-blue: #0394fc;
+    --orange: #e6540b;
+    --white: #fff;
+}
+
+input {
+    height: 26px;
+}
+
+button {
+    background-color: var(--light-blue);
+    border: none;
+    padding: 0.5em;
+    color: var(--white);
+    height: 32px;
+    font-weight: bold;
+}
+
+button:hover {
+    background-color: var(--white);
+    color: var(--light-blue);
+    cursor: pointer;
+}
+
+#temp-unit {
+    width: 32px;
+    
+}
+
+.card {
+    margin: 1em 0em 0em 0em;
+    border:2px solid #000;
+    text-align: center;
+}
+
+.city {
+    padding: 0em 0em 0em 2em;
+}
+
+.temp-holder {
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+}
+
+.temp {
+    display: block;
+    float: left;
+}
+.temp-lo {
+    display: block;
+    float: left;
+    padding: 0.5em 1em;
+    color: var(--light-blue); 
+}
+.temp-hi {
+    display: block;
+    float: left;
+    padding: 0.5em 1em;
+    color: var(--orange); 
+}
+
+
+.delete-btn {
+    display: block;
+    width:32px;
+    height: 32px;
+    margin: 10px;
+    background-image: url(images/delete.png);
+    background-size: cover;
+    cursor: pointer;
+    float: right;
+}
+
+.delete-btn img {
+    width: 24px;
+    height: 24px;
+    
+}
