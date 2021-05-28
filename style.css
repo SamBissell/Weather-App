@@ -4,6 +4,14 @@
     --orange: #e6540b;
     --white: #fff;
 }
+body {
+    text-align: center;
+}
+
+a {
+    color: var(--light-blue);
+    text-decoration: none;
+}
 
 input {
     height: 26px;
@@ -79,3 +87,8 @@ button:hover {
     height: 24px;
     
 }
+
+.logo {
+    height: 3em;
+    margin: 1.25em 0 0 0;
+  }
