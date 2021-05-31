@@ -53,20 +53,22 @@ const clearDisplay = () => {
 }
 
 const getTargetIndex = (e) => {
-  let targetElement = e.target.closest(".todo-body");
+  let targetElement = e.target.closest(".card");
   let targetId = parseInt(targetElement.id);
   let targetIndex = list.findIndex(x => x.id === targetId);
   return targetIndex;
 }
 
 const getTargetElement = (e) => {
-  let targetElement = e.target.closest(".todo-body");
+  let targetElement = e.target.closest(".card");
   return targetElement;
 }
 
 const deleteElement = (e) => {
   let myTarget = getTargetIndex(e)
+  console.log(myTarget);
   list.splice(myTarget, 1);
+  console.log(list);
   renderList()
   // console.log(list);
 };
