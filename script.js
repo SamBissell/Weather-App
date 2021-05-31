@@ -8,14 +8,10 @@ const root = document.getElementById("root");
 let list = [];
 let isFaren = true;
 
-
-
 const changeTempUnit = function () {
   // getUnits();
   isFaren = isFaren ? false : true;
   tempUnitButton.textContent = (isFaren ? "F" : "C");
-  console.log(isFaren);
-
 }
 
 // F to C
@@ -23,7 +19,6 @@ const convertFtoC = (temp) => {
   let newTemp = Math.floor((temp - 32) / 1.8);
   return newTemp;
 }
-
 
 // C to F 
 const convertCtoF = (temp) => {
@@ -50,9 +45,6 @@ const convertTemps = function () {
   // changeTempUnit();
 };
 
-
-
-
 const clearDisplay = () => {
   // clear the elements displayed
   while (root.lastChild) {
@@ -60,76 +52,39 @@ const clearDisplay = () => {
   }
 }
 
-const deleteElement = (e) => {
-  e.preventDefault()
-
-  let targetCard = e.target.closest(".card");
-  let targetIndex = (targetCard.id - 1);
-
-  targetCard.remove();
-
-  list.splice(targetIndex, 1);
-  // console.log(list);
+const getTargetIndex = (e) => {
+  let targetElement = e.target.closest(".todo-body");
+  let targetId = parseInt(targetElement.id);
+  let targetIndex = list.findIndex(x => x.id === targetId);
+  return targetIndex;
 }
-// **********
-// **********
-// **********
-// **********
-// EDIT FUNCTION
 
-// const editElement = (e) => {
+const getTargetElement = (e) => {
+  let targetElement = e.target.closest(".todo-body");
+  return targetElement;
+}
+
+const deleteElement = (e) => {
+  let myTarget = getTargetIndex(e)
+  list.splice(myTarget, 1);
+  renderList()
+  // console.log(list);
+};
+
+// const deleteElement = (e) => {
 //   e.preventDefault()
-
-//   // identify card and list index
 //   let targetCard = e.target.closest(".card");
+
 //   let targetIndex = (targetCard.id - 1);
 
-//   // changing the list data
+//   targetCard.remove();
 
-//   // ************
-//   // ************
-//   // ************
-//   // provide html with a form to enter new information
-//   let elEditModal = document.createElement("div");
-//   let elEditInput = document.createElement("input");
-//   let elEditConfirm = document.createElement("button");
-
-//   elEditConfirm.textContent = "Confirm Change"
-//   elEditModal.classList.add("edit-modal");
-//   elEditInput.classList.add("zip-input");
-//   elEditConfirm.classList.add("edit-confirm");
-
-//   elEditModal.appendChild(elEditInput)
-//   elEditModal.appendChild(elEditConfirm)
-//   targetCard.appendChild(elEditModal)
-
-//   const userData = function () {
-
-//     let newZip = elEditInput.value;
-
-//     // new data is used in an API call
-//     // data from API call is passed into the edisting
-
-//     list[targetIndex].item = newZip;
-//     // view is rendered again
-//     renderList();
-//   }
-
-
-
-//   elEditConfirm.addEventListener("click", userData)
-
+//   list.splice(targetIndex, 1);
 // }
 
 const printList = () => {
   // loop through array, adding elements for each index
   for (let i = 0; i <= list.length - 1; i++) {
-    // Change this to add a more elaborate HTML element which can be uniquely identified
-    // const x = create element 
-    // x.classlist.add class
-    // parent.appendChild(element)
-    // element.addeventlistener
-    // root.appendchild.parent
 
     // create elements
     let elCard = document.createElement("div");
@@ -140,8 +95,6 @@ const printList = () => {
     let elTempHi = document.createElement("h3");
     let elWeather = document.createElement("h1");
     let elDelete = document.createElement("div");
-
-    // let elEdit = document.createElement("div");
 
     // Text for city, weather, high/low temp, conditions would be added here via a tect COntent 
     elCity.textContent = `${list[i].city}`
@@ -159,13 +112,9 @@ const printList = () => {
     elTempHi.classList.add("temp-hi");
     elWeather.classList.add("weather-info");
     elDelete.classList.add("delete-btn");
-    // elEdit.classList.add("edit-btn");
     elCard.id = `${list[i].id}`;
 
     elDelete.addEventListener("click", deleteElement);
-    // elEdit.addEventListener("click", editElement);
-
-
 
     elCard.appendChild(elDelete)
     elCard.appendChild(elCity)
@@ -174,31 +123,10 @@ const printList = () => {
     elTempHolder.appendChild(elTemp)
     elTempHolder.appendChild(elTempHi)
     elCard.appendChild(elWeather)
-
-    // elCard.appendChild(elEdit)
     root.appendChild(elCard);
   }
 }
 
-
-
-
-
-
-// const convertTemps = function () {
-//   if (isFaren = true) {
-//     for (let i = 0; i <= list.length - 1; i++) {
-//       list[i].temp = convertKToFarenheit(list[i].temp);
-//       list[i].tempLo = convertKToFarenheit(list[i].tempLo);
-//       list[i].tempHi = convertKToFarenheit(list[i].tempHi);
-//     }
-//   } else { }
-//   for (let i = 0; i <= list.length - 1; i++) {
-//     list[i].temp = convertKToCelsius(list[i].temp);
-//     list[i].tempLo = convertKToCelsius(list[i].tempLo);
-//     list[i].tempHi = convertKToCelsius(list[i].tempHi);
-//   }
-// }
 // Kelvin to F /C
 const convertKToFarenheit = (temp) => {
   let tempFar = Math.floor(1.8 * (temp - 273.15) + 32);
@@ -222,28 +150,12 @@ const convertTempsFromK = function (temp) {
   }
 }
 
-
-
 const renderList = () => {
   clearDisplay();
-  // convertTemps();
   printList();
-  console.log("rendered");
 }
 
-
-
-
-// ************
-// ************
-// ************
-// Add editing function: Click on a forecast and edit the infomration in that list[{object}], then re-render the list
-
-
-
-
 // API CALL
-// getting the data from the api
 async function getWeatherData() {
 
   let zip = mainInput.value;
@@ -253,21 +165,15 @@ async function getWeatherData() {
   let response = await fetch(url)
   let data = await response.json()
 
-
   return data;
   // const objz = JSON.parse(data);
 
 }
 
-
 // process data into object
 class WeatherDataObject {
   constructor(data) {
-    // ************
-    // ************
-    // ************
-    // Change this to include more weather information
-    this.id = list.length + 1;
+    this.id = Date.now();
     this.city = data.name;
     this.temp = convertTempsFromK(data.main.temp);
     this.tempHi = convertTempsFromK(data.main.temp_max);
@@ -275,47 +181,22 @@ class WeatherDataObject {
     this.weather = data.weather[0].main;
   }
 
-
   // add to list
   addToList() {
     list.push(this);
   }
 }
 
-
-// the action of getting and storing the data itself
-// getWeatherData().then((data) => helper(data));
-
-
-
-
-// getWeatherData().then((data) => {
-//   const newObj = new WeatherDataObject(data);
-//   newObj.addToList();
-//   // list.push(data);
-//   console.log(list);
-//   console.log(newObj);
-// });
-
 addButton.addEventListener("click", function (e) {
   getWeatherData().then((data) => {
     const newObj = new WeatherDataObject(data);
     newObj.addToList();
-    console.log(list);
     renderList();
   });
 });
 
 tempUnitButton.addEventListener("click", function () {
-
   convertTemps();
   renderList();
   changeTempUnit();
 });
-
-
-
-// ************
-// ************
-// ************
-// Refactor API call so that it's fed zip code from input field nearest to the button clicked
